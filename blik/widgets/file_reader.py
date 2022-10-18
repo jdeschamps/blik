@@ -1,8 +1,7 @@
 from magicgui import magic_factory
 from typing import TYPE_CHECKING, List
 from pathlib import Path
-
-from ..reader import read_layers
+from blik.reader import read_layers
 
 if TYPE_CHECKING:
     import napari
@@ -27,3 +26,15 @@ def file_reader(
     names: only load data matching this comma separated list of names
     """
     return read_layers(*files, name_regex=name_regex or None, names=names or None, lazy=as_dask_array)
+
+
+if __name__ == "__main__":
+    import napari
+
+    # create a Viewer
+    viewer = napari.Viewer()
+
+    # add our plugin
+    viewer.window.add_dock_widget(file_reader())
+
+    napari.run()
